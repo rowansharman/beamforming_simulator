@@ -1,0 +1,352 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     14848,        344]
+NotebookOptionsPosition[     14330,        327]
+NotebookOutlinePosition[     14671,        342]
+CellTagsIndexPosition[     14628,        339]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["\<\
+Visualize maximum attenuation of delay-and-sum beamfoming microphone array as \
+frequency changes
+Rowan Sharman
+Shell TechWorks
+2018\
+\>", "Text",
+ CellChangeTimes->{
+  3.7398748243462715`*^9, {3.7398749390227103`*^9, 3.7398749437697105`*^9}, {
+   3.7398749780487103`*^9, 
+   3.7398750591077104`*^9}},ExpressionUUID->"bda9916f-a2f8-4ad6-aa0c-\
+2d5834432b5b"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"minfreq", "=", "100"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"maxfreq", " ", "=", "10000"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"vSound", "=", "34300"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"micDists", "=", 
+    RowBox[{"{", 
+     RowBox[{"1", ",", "5", ",", "7"}], "}"}]}], ";"}], " ", 
+  RowBox[{"(*", 
+   RowBox[{"cm", " ", "from", " ", "source"}], "*)"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"lines", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"For", "[", 
+    RowBox[{
+     RowBox[{"i", "=", "1"}], ",", 
+     RowBox[{"i", "\[LessEqual]", " ", 
+      RowBox[{"Length", "[", "micDists", "]"}]}], ",", 
+     RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"AppendTo", "[", 
+       RowBox[{"lines", ",", 
+        RowBox[{"Line", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"micDists", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], ",", 
+             RowBox[{"-", "1.1"}]}], "}"}], ",", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"micDists", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], ",", "1.1"}], "}"}]}], "}"}], 
+         "]"}]}], "]"}], ";"}]}], "\[IndentingNewLine]", "]"}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"getSum", "[", "f_", "]"}], ":=", "\[IndentingNewLine]", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"func", "=", "f"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"intersects", "=", 
+       RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+      RowBox[{"For", "[", 
+       RowBox[{
+        RowBox[{"i", "=", "1"}], ",", 
+        RowBox[{"i", "\[LessEqual]", " ", 
+         RowBox[{"Length", "[", "micDists", "]"}]}], ",", 
+        RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"intersects", ",", 
+           RowBox[{"f", " ", "/.", " ", 
+            RowBox[{"t", "\[Rule]", 
+             RowBox[{"micDists", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}]}]}], "]"}], ";"}]}], 
+       "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"Total", "[", "intersects", "]"}]}]}], "\[IndentingNewLine]", 
+    "]"}]}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"\[Lambda]", "=", 
+     RowBox[{"vSound", "/", "freq"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"f1", "=", 
+     RowBox[{"Sin", "[", 
+      RowBox[{
+       RowBox[{"t", "*", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{"2", "\[Pi]"}], ")"}], "/", "\[Lambda]"}], ")"}]}], "+", 
+       "t0"}], "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"out", "=", 
+     RowBox[{"Maximize", "[", 
+      RowBox[{
+       RowBox[{"getSum", "[", "f1", "]"}], ",", "t0"}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"t0Max", "=", 
+     RowBox[{"t0", "/.", 
+      RowBox[{"out", "[", 
+       RowBox[{"[", "2", "]"}], "]"}]}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"points", "=", 
+     RowBox[{"{", "}"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"For", "[", 
+     RowBox[{
+      RowBox[{"i", "=", "1"}], ",", 
+      RowBox[{"i", "\[LessEqual]", " ", 
+       RowBox[{"Length", "[", "micDists", "]"}]}], ",", 
+      RowBox[{"i", "++"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"AppendTo", "[", 
+        RowBox[{"points", ",", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"micDists", "[", 
+            RowBox[{"[", "i", "]"}], "]"}], ",", 
+           RowBox[{"f1", "//.", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"t0", "\[Rule]", "t0Max"}], ",", 
+              RowBox[{"t", "\[Rule]", 
+               RowBox[{"micDists", "[", 
+                RowBox[{"[", "i", "]"}], "]"}]}]}], "}"}]}]}], "}"}]}], "]"}],
+        ";"}]}], "\[IndentingNewLine]", "]"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"pts", "=", 
+     RowBox[{"ListPlot", "[", "points", "]"}]}], ";", "\[IndentingNewLine]", 
+    RowBox[{"fmax", "=", 
+     RowBox[{
+      RowBox[{"out", "[", 
+       RowBox[{"[", "1", "]"}], "]"}], "/", 
+      RowBox[{"Length", "[", "micDists", "]"}]}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"func", "=", 
+     RowBox[{"Plot", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"f1", "/.", 
+          RowBox[{"t0", "\[Rule]", "t0Max"}]}], ",", "fmax"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"t", ",", "0", ",", "10"}], "}"}], ",", 
+       RowBox[{"Epilog", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{"Red", ",", "lines"}], "}"}]}], ",", 
+       RowBox[{"PlotRange", "\[Rule]", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"micDists", "[", 
+              RowBox[{"[", "1", "]"}], "]"}], "-", "1"}], ",", 
+            RowBox[{
+             RowBox[{"micDists", "[", 
+              RowBox[{"[", 
+               RowBox[{"-", "1"}], "]"}], "]"}], "+", "1"}]}], "}"}], ",", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"-", "1.1"}], ",", "1.1"}], "}"}]}], "}"}]}], ",", 
+       RowBox[{"ImageSize", "\[Rule]", "Full"}]}], "]"}]}], ";", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Show", "[", 
+     RowBox[{"{", 
+      RowBox[{"func", ",", "pts"}], "}"}], "]"}]}], "\[IndentingNewLine]", 
+   ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"freq", ",", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"maxfreq", "-", "minfreq"}], ")"}], "/", "3"}], ",", 
+       "\"\<Frequency (Hz)\>\""}], "}"}], ",", "minfreq", ",", "maxfreq", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}]}], "}"}], ",", 
+   RowBox[{"ContentSize", "\[Rule]", "1000"}]}], "]"}]}], "Input",
+ CellChangeTimes->{{3.7389527095710573`*^9, 3.738952730709171*^9}, {
+   3.738952761910818*^9, 3.7389528310119953`*^9}, 3.738952929531287*^9, {
+   3.738952960472098*^9, 3.7389530015898724`*^9}, {3.7389530509008036`*^9, 
+   3.7389530545068035`*^9}, {3.7389530995108037`*^9, 
+   3.7389531038318033`*^9}, {3.7389531531408033`*^9, 3.738953161884804*^9}, {
+   3.738953224646804*^9, 3.7389532542418036`*^9}, 3.7389533611428037`*^9, {
+   3.7389534049968033`*^9, 3.7389534443588037`*^9}, {3.7390109399990444`*^9, 
+   3.739010947265771*^9}, {3.7390125547569776`*^9, 3.739012624699978*^9}, {
+   3.7390139136117783`*^9, 3.7390139178807783`*^9}, {3.7390140057247787`*^9, 
+   3.7390140106307783`*^9}, {3.7390141062797785`*^9, 
+   3.7390141068717785`*^9}, {3.7390142354667788`*^9, 3.739014272801779*^9}, {
+   3.7390143137347784`*^9, 3.739014316457779*^9}, {3.7390145839437785`*^9, 
+   3.7390145889347787`*^9}, {3.739014620555694*^9, 3.7390146614667845`*^9}, {
+   3.7390147119398317`*^9, 3.739014776253262*^9}, {3.7390156578944173`*^9, 
+   3.739015783760003*^9}, {3.739015815458172*^9, 3.739015828319458*^9}, {
+   3.739016047499374*^9, 3.739016140220645*^9}, {3.7390161787484975`*^9, 
+   3.7390162575433764`*^9}, {3.73901628828545*^9, 3.739016424870107*^9}, {
+   3.739016456193239*^9, 3.7390165164492645`*^9}, {3.739016548750494*^9, 
+   3.7390165593195505`*^9}, {3.7390166259742155`*^9, 3.739016661262744*^9}, 
+   3.739016692885906*^9, {3.739023808680346*^9, 3.739023811490346*^9}, {
+   3.7390284317915893`*^9, 3.7390285223215895`*^9}, 3.739028579051589*^9, {
+   3.7390288199545126`*^9, 3.7390288322517424`*^9}, 3.73902887242976*^9, {
+   3.7390289951460304`*^9, 3.7390290043629518`*^9}, 3.7390293699055023`*^9, 
+   3.7390294169452057`*^9, {3.7390367597637625`*^9, 3.739036775976763*^9}, {
+   3.739036867979286*^9, 3.7390369329757853`*^9}, {3.739036982392727*^9, 
+   3.739036982845772*^9}, {3.7390372672902136`*^9, 3.739037267587243*^9}, {
+   3.7390373021637006`*^9, 3.7390373515276365`*^9}, {3.739037390791562*^9, 
+   3.739037411829666*^9}, {3.7390375417566576`*^9, 3.739037709320412*^9}, {
+   3.7390377410785875`*^9, 3.7390377542689066`*^9}, {3.7390378103555145`*^9, 
+   3.7390378510825872`*^9}, {3.739037950991577*^9, 3.739037951454623*^9}, {
+   3.739038086548153*^9, 3.7390381889451523`*^9}, {3.7390382203691525`*^9, 
+   3.7390382970821524`*^9}, {3.7390383688751526`*^9, 
+   3.7390383702301526`*^9}, {3.7390385365321527`*^9, 
+   3.7390385500211525`*^9}, {3.7390385839011526`*^9, 
+   3.7390385984981527`*^9}, {3.7390386780471525`*^9, 
+   3.7390387310521526`*^9}, {3.7390387664981527`*^9, 
+   3.7390388015781527`*^9}, {3.7390388333621526`*^9, 
+   3.7390388337141523`*^9}, {3.7390388734721527`*^9, 
+   3.7390388771981525`*^9}, {3.7390389749559774`*^9, 
+   3.7390389802575073`*^9}, {3.7390390433738184`*^9, 
+   3.7390390552090015`*^9}, {3.739039134870967*^9, 3.73903917160364*^9}, {
+   3.739039231568636*^9, 3.7390392361680956`*^9}, {3.7390927916245127`*^9, 
+   3.7390928334513297`*^9}, {3.739109077568336*^9, 3.7391091088943357`*^9}, {
+   3.7391091654123363`*^9, 3.739109169477336*^9}, {3.739109303417336*^9, 
+   3.739109320083336*^9}, {3.739109356538336*^9, 3.739109373170336*^9}, {
+   3.739109444653336*^9, 3.739109446905336*^9}, {3.7391094812363358`*^9, 
+   3.7391094958793364`*^9}},
+ CellLabel->"In[55]:=",ExpressionUUID->"38d12253-9a20-49cf-adf7-cedb6a3ccda2"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`freq$$ = 5260., Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`freq$$], 3300, "Frequency (Hz)"}, 100, 10000}}, 
+    Typeset`size$$ = {980., {292., 298.}}, Typeset`update$$ = 0, 
+    Typeset`initDone$$, Typeset`skipInitDone$$ = 
+    True, $CellContext`freq$209217$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, "Variables" :> {$CellContext`freq$$ = 3300}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`freq$$, $CellContext`freq$209217$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, 
+      "Body" :> ($CellContext`\[Lambda] = \
+$CellContext`vSound/$CellContext`freq$$; $CellContext`f1 = 
+        Sin[$CellContext`t ((2 
+             Pi)/$CellContext`\[Lambda]) + $CellContext`t0]; $CellContext`out = 
+        Maximize[
+          $CellContext`getSum[$CellContext`f1], $CellContext`t0]; \
+$CellContext`t0Max = ReplaceAll[$CellContext`t0, 
+          Part[$CellContext`out, 2]]; $CellContext`points = {}; 
+       For[$CellContext`i = 1, $CellContext`i <= 
+         Length[$CellContext`micDists], 
+         Increment[$CellContext`i], AppendTo[$CellContext`points, {
+            Part[$CellContext`micDists, $CellContext`i], 
+            
+            ReplaceRepeated[$CellContext`f1, {$CellContext`t0 -> \
+$CellContext`t0Max, $CellContext`t -> 
+              Part[$CellContext`micDists, $CellContext`i]}]}]; 
+         Null]; $CellContext`pts = 
+        ListPlot[$CellContext`points]; $CellContext`fmax = 
+        Part[$CellContext`out, 1]/
+         Length[$CellContext`micDists]; $CellContext`func = Plot[{
+           
+           ReplaceAll[$CellContext`f1, $CellContext`t0 -> \
+$CellContext`t0Max], $CellContext`fmax}, {$CellContext`t, 0, 10}, 
+          Epilog -> {Red, $CellContext`lines}, 
+          PlotRange -> {{
+            Part[$CellContext`micDists, 1] - 1, 
+             Part[$CellContext`micDists, -1] + 1}, {-1.1, 1.1}}, ImageSize -> 
+          Full]; Show[{$CellContext`func, $CellContext`pts}]), 
+      "Specifications" :> {{{$CellContext`freq$$, 3300, "Frequency (Hz)"}, 
+         100, 10000, Appearance -> "Labeled"}}, 
+      "Options" :> {ContentSize -> 1000}, "DefaultOptions" :> {}],
+     ImageSizeCache->{1020., {336., 343.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UndoTrackedVariables:>{Typeset`show$$, Typeset`bookmarkMode$$},
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellChangeTimes->{
+  3.7390374129167747`*^9, {3.739037547009183*^9, 3.7390375701724987`*^9}, {
+   3.7390376775712376`*^9, 3.73903771579906*^9}, 3.739037746820162*^9, 
+   3.7390378534478235`*^9, 3.739037920490527*^9, 3.7390379530317807`*^9, 
+   3.739038513265153*^9, 3.7390385659431524`*^9, 3.7390386176131525`*^9, 
+   3.7390386971131525`*^9, 3.7390387422681527`*^9, 3.7390388881771526`*^9, 
+   3.7390389935828395`*^9, 3.7390390717466555`*^9, {3.739039174579938*^9, 
+   3.7390391958370633`*^9}, 3.73903923970745*^9, 3.7390925472088647`*^9, 
+   3.7390928378418903`*^9, 3.739092893947279*^9, 3.739104180378135*^9, 
+   3.7391065615866194`*^9, {3.7391090914523363`*^9, 3.739109119069336*^9}, 
+   3.739109185987336*^9, 3.7391093330513363`*^9, 3.739109463864336*^9, 
+   3.739109506909336*^9, 3.739798508386427*^9, 3.7398749288717103`*^9},
+ CellLabel->"Out[62]=",ExpressionUUID->"e6139364-f6b3-4fb6-9205-881a0b6cf234"]
+}, Open  ]]
+},
+WindowSize->{1904, 985},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"11.3 for Microsoft Windows (64-bit) (March 6, 2018)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 368, 11, 100, "Text",ExpressionUUID->"bda9916f-a2f8-4ad6-aa0c-2d5834432b5b"],
+Cell[CellGroupData[{
+Cell[951, 35, 9399, 213, 637, "Input",ExpressionUUID->"38d12253-9a20-49cf-adf7-cedb6a3ccda2"],
+Cell[10353, 250, 3961, 74, 698, "Output",ExpressionUUID->"e6139364-f6b3-4fb6-9205-881a0b6cf234"]
+}, Open  ]]
+}
+]
+*)
+
