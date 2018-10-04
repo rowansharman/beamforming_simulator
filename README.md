@@ -1,5 +1,5 @@
 # Beamforming Array Simulator
-Beamforming microphone arrays can spatially filter sound to remove background noise and isolate sound coming from a focus point. This Mathematica code is my attempt to simulate the rejection pattern of an arbitrary beamforming microphone array in three-dimensional space.
+Beamforming microphone arrays can spatially filter sound to remove background noise and isolate sound coming from a focus point. This Mathematica code is my attempt to simulate the rejection pattern of an arbitrary beamforming microphone array in three-dimensional space. I developed this while working for Shell TechWorks during the summer of 2018.
 
 There are three files here to facilitate development and understanding, but only `beamformingSimulator.nb` runs the full 3D simulation.
 
